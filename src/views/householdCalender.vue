@@ -77,15 +77,16 @@
         </tr>
       </table>
     </div>
+    <!-- 詳細内容 -->
     <div>
       <table>
         <tr>
           <th>カテゴリー</th>
           <th>金額</th>
         </tr>
-        <tr v-for="spending of spendings" :key="spending">
+        <tr v-for="(spending, index) of spendings" :key="index">
           <td>{{ spending[0] }}</td>
-          <td>{{ spending }}</td>
+          <td>{{ spending[1] }}</td>
         </tr>
       </table>
     </div>
@@ -111,7 +112,7 @@ export default class XXXComponent extends Vue {
   private fifthWeek = Array<number>();
   private sixthWeek = Array<number>();
 
-  get spendings(): Map<string, Array<any>> {
+  get spendings(): Map<string, Array<Array<string>>> {
     let date = this.year + "-" + this.month + "-" + this.day;
     return this.$store.getters.getSpendings(date);
   }
@@ -121,6 +122,7 @@ export default class XXXComponent extends Vue {
     console.log(this.year + "-" + this.month + "-" + this.day);
   }
 
+  //カレンダーテーブル作成
   get getFirstWeek(): Array<number> {
     this.firstWeek = Array<number>();
     for (

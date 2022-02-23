@@ -1,4 +1,4 @@
-import { Spending } from "@/type/spending";
+// import { Spending } from "@/type/spending";
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -8,17 +8,29 @@ export default new Vuex.Store({
   // strict: true,
 
   state: {
-    spendingMap: new Map<string, Array<any>>(),
+    spendingMap: new Map<string, Array<Array<string>>>(),
   },
+
   actions: {},
 
   mutations: {
+    /**
+     * 支出内容をステートのその日付の
+     *
+     * @param state - ステート
+     * @param payload 支出内容
+     */
     setSpending(state, payload) {
       const existingSpending = state.spendingMap.get(payload.date);
-      state.spendingMap.set(payload.date, [
-        existingSpending,
-        [payload.category, payload.spending],
-      ]);
+      if (existingSpending === undefined) {
+        state.spendingMap.set(payload.date, [
+          [payload.category, payload.spending],
+        ]);
+        return;
+      }
+      existingSpending.push([payload.category, payload.spending]);
+      state.spendingMap.set(payload.date, existingSpending);
+      console.log(existingSpending);
     },
   },
 
@@ -28,11 +40,10 @@ export default new Vuex.Store({
         return state.spendingMap.get(date);
       };
     },
-  },
 
-  getspendingMap(state) {
-    return state.spendingMap;
+    getspendingMap(state) {
+      return state.spendingMap;
+    },
   },
-
   modules: {},
 });

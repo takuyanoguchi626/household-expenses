@@ -60,6 +60,10 @@ export default class XXXComponent extends Vue {
     return this.year + "-" + this.month + "-" + this.day;
   }
 
+  /**
+   * 入力した支出をストアに追加.
+   *
+   */
   setSpending(): void {
     this.$store.commit("setSpending", {
       date: this.date,
@@ -68,8 +72,11 @@ export default class XXXComponent extends Vue {
     });
   }
 
+  /**
+   * 今月の日数を取得.
+   *
+   */
   get days(): number {
-    // let MOONAJDSTMENT = 1;
     let date = new Date(this.year, this.month, 0);
     let day = date.getDate();
     return day;
