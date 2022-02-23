@@ -84,9 +84,9 @@
           <th>カテゴリー</th>
           <th>金額</th>
         </tr>
-        <tr v-for="spending of spendings" :key="spending">
+        <tr v-for="(spending, index) of spendings" :key="index">
           <td>{{ spending[0] }}</td>
-          <td>{{ spending }}</td>
+          <td>{{ spending[1] }}</td>
         </tr>
       </table>
     </div>
