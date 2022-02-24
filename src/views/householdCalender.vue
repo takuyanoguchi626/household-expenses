@@ -112,8 +112,12 @@ export default class XXXComponent extends Vue {
   private fifthWeek = Array<number>();
   //6週間目
   private sixthWeek = Array<number>();
-
-  get spendings(): Map<string, Array<Array<string>>> {
+  /**
+   *指定した日付の支出一覧を取得する
+   *
+   *@returns 指定した日付の支出一覧
+   */
+  get spendings(): Map<string, Array<Array<string | number>>> {
     let date = this.year + "-" + this.month + "-" + this.day;
     return this.$store.getters.getSpendings(date);
   }
@@ -125,8 +129,8 @@ export default class XXXComponent extends Vue {
   get getFirstWeek(): Array<number> {
     this.firstWeek = Array<number>();
     for (
-      let i = this.getLastDateOfLastMonth;
-      i - this.dayOfWeek + 1 <= this.getLastDateOfLastMonth;
+      let i = this.LastDateOfLastMonth;
+      i - this.dayOfWeek + 1 <= this.LastDateOfLastMonth;
       i++
     ) {
       this.firstWeek.push(i - this.dayOfWeek + 1);
@@ -208,7 +212,7 @@ export default class XXXComponent extends Vue {
     ).getDay();
   }
   //先月の最終日を取得
-  get getLastDateOfLastMonth(): number {
+  get LastDateOfLastMonth(): number {
     return new Date(
       Number(this.year),
       this.month - this.MOONAJDSTMENT,

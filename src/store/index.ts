@@ -8,7 +8,7 @@ export default new Vuex.Store({
   // strict: true,
 
   state: {
-    spendingMap: new Map<string, Array<Array<string>>>(),
+    spendingMap: new Map<string, Array<Array<string | number>>>(),
   },
 
   actions: {},

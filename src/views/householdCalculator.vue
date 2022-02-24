@@ -40,8 +40,9 @@
 
       <div>
         <button type="button" @click="setSpending">支出を入力する</button>
-        <button type="reset">クリア</button>
+        <button type="reset" @click="resetSpending">クリア</button>
       </div>
+      {{ setSpendingMessage }}
     </form>
   </div>
 </template>
@@ -50,16 +51,34 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class XXXComponent extends Vue {
+  //年
   private year = 2022;
+  //月
   private month = 0;
+  //日
   private day = 0;
+  //カテゴリー
   private category = "";
+  //支出
   private spending = 0;
-
+  //支出入力完了メッセージ
+  private setSpendingMessage = "";
+  /**
+   * 今月の最終日を取得.
+   *
+   * @returns 今月の最終日
+   */
+  get days(): number {
+    return new Date(this.year, this.month, 0).getDate();
+  }
+  /**
+   * 指定した日付を取得する.
+   *
+   * @returns 指定した日付
+   */
   get date(): string {
     return this.year + "-" + this.month + "-" + this.day;
   }
-
   /**
    * 入力した支出をストアに追加.
    *
@@ -70,16 +89,14 @@ export default class XXXComponent extends Vue {
       category: this.category,
       spending: this.spending,
     });
+    this.setSpendingMessage = "支出の入力が完了しました！";
   }
-
   /**
-   * 今月の日数を取得.
+   * 支出入力完了メッセージをリセットする.
    *
    */
-  get days(): number {
-    let date = new Date(this.year, this.month, 0);
-    let day = date.getDate();
-    return day;
+  resetSpending(): void {
+    this.setSpendingMessage = "";
   }
 }
 </script>
