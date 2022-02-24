@@ -18,11 +18,6 @@
       </select>
     </div>
     <div>
-      {{ getmonthArr }}
-      {{ dayOfWeek }}
-      {{ getLastDateOfLastMonth }}
-    </div>
-    <div>
       <table border="1">
         <tr>
           <th>日</th>
@@ -97,32 +92,36 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class XXXComponent extends Vue {
+  //年
   private year = 2022;
+  //月
   private month = 0;
+  //日
   private day = 0;
+  //Dateの月の調整
   private MOONAJDSTMENT = 1;
-  private firstDate = new Date();
-  private lastDate = new Date();
-  private monthArr = Array<number>();
-  private LastDateOfLastMonth = new Date();
+  //1週間目
   private firstWeek = Array<number>();
+  //2週間目
   private secondWeek = Array<number>();
+  //3週間目
   private thirdWeek = Array<number>();
+  //4週間目
   private fourthWeek = Array<number>();
+  //5週間目
   private fifthWeek = Array<number>();
+  //6週間目
   private sixthWeek = Array<number>();
 
   get spendings(): Map<string, Array<Array<string>>> {
     let date = this.year + "-" + this.month + "-" + this.day;
     return this.$store.getters.getSpendings(date);
   }
-
   dayPush(day: number): void {
     this.day = day;
     console.log(this.year + "-" + this.month + "-" + this.day);
   }
-
-  //カレンダーテーブル作成
+  //今月の1週間目を配列で取得
   get getFirstWeek(): Array<number> {
     this.firstWeek = Array<number>();
     for (
@@ -137,7 +136,7 @@ export default class XXXComponent extends Vue {
     }
     return this.firstWeek;
   }
-
+  //今月の2週間目を配列で取得
   get getSecondWeek(): Array<number> {
     this.secondWeek = Array<number>();
     for (let i = 0; this.secondWeek.length < 7; i++) {
@@ -145,7 +144,7 @@ export default class XXXComponent extends Vue {
     }
     return this.secondWeek;
   }
-
+  //今月の3週間目を配列で取得
   get getThirdWeek(): Array<number> {
     this.thirdWeek = Array<number>();
     for (let i = 0; this.thirdWeek.length < 7; i++) {
@@ -153,7 +152,7 @@ export default class XXXComponent extends Vue {
     }
     return this.thirdWeek;
   }
-
+  //今月の4週間目を配列で取得
   get getFourthWeek(): Array<number> {
     this.fourthWeek = Array<number>();
     for (let i = 0; this.fourthWeek.length < 7; i++) {
@@ -161,7 +160,7 @@ export default class XXXComponent extends Vue {
     }
     return this.fourthWeek;
   }
-
+  //今月の5週間目を配列で取得
   get getFifthWeek(): Array<number> {
     this.fifthWeek = Array<number>();
     for (let i = 0; this.fifthWeek.length < 7; i++) {
@@ -174,7 +173,7 @@ export default class XXXComponent extends Vue {
     }
     return this.fifthWeek;
   }
-
+  //今月の6週間目を配列で取得
   get getSixthWeek(): Array<number> {
     this.sixthWeek = Array<number>();
     for (let i = 1; this.sixthWeek.length < 7; i++) {
@@ -193,43 +192,33 @@ export default class XXXComponent extends Vue {
     }
     return this.sixthWeek;
   }
-
-  get getdate(): Date {
-    this.firstDate = new Date(
-      Number(this.year),
-      this.month - this.MOONAJDSTMENT
-    );
-    return this.firstDate;
-  }
-
-  get lastDay(): number {
-    this.lastDate = new Date(Number(this.year), this.month, 0);
-    return this.lastDate.getDate();
-  }
-
+  //今月の日付を配列に入れて取得
   get getmonthArr(): Array<number> {
-    this.monthArr = Array<number>();
+    let monthArr = Array<number>();
     for (let i = 1; i <= this.lastDay; i++) {
-      this.monthArr.push(i);
+      monthArr.push(i);
     }
-    return this.monthArr;
+    return monthArr;
   }
-
+  //今月の初日の曜日を取得
   get dayOfWeek(): number {
-    this.firstDate = new Date(
+    return new Date(
       Number(this.year),
       this.month - this.MOONAJDSTMENT
-    );
-    return this.firstDate.getDay();
+    ).getDay();
   }
-
+  //先月の最終日を取得
   get getLastDateOfLastMonth(): number {
-    this.LastDateOfLastMonth = new Date(
+    return new Date(
       Number(this.year),
       this.month - this.MOONAJDSTMENT,
       0
-    );
-    return this.LastDateOfLastMonth.getDate();
+    ).getDate();
+  }
+  //今月の最終日を取得
+  get lastDay(): number {
+    let lastDate = new Date(Number(this.year), this.month, 0);
+    return lastDate.getDate();
   }
 }
 </script>
