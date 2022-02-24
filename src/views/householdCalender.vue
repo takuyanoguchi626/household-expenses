@@ -29,28 +29,28 @@
           <th>土</th>
         </tr>
         <tr>
-          <td v-for="day1 of getFirstWeek" :key="day1">
+          <td v-for="day1 of firstWeek" :key="day1">
             <button @click="dayPush(day1)">
               {{ day1 }}
             </button>
           </td>
         </tr>
         <tr>
-          <td v-for="day2 of getSecondWeek" :key="day2">
+          <td v-for="day2 of SecondWeek" :key="day2">
             <button @click="dayPush(day2)">
               {{ day2 }}
             </button>
           </td>
         </tr>
         <tr>
-          <td v-for="day3 of getThirdWeek" :key="day3">
+          <td v-for="day3 of thirdWeek" :key="day3">
             <button @click="dayPush(day3)">
               {{ day3 }}
             </button>
           </td>
         </tr>
         <tr>
-          <td v-for="day4 of getFourthWeek" :key="day4">
+          <td v-for="day4 of fourthWeek" :key="day4">
             <button @click="dayPush(day4)">
               {{ day4 }}
             </button>
@@ -64,7 +64,7 @@
           </td>
         </tr>
         <tr>
-          <td v-for="day6 of getSixthWeek" :key="day6">
+          <td v-for="day6 of sixthWeek" :key="day6">
             <button @click="dayPush(day6)">
               {{ day6 }}
             </button>
@@ -100,18 +100,8 @@ export default class XXXComponent extends Vue {
   private day = 0;
   //Dateの月の調整
   private MOONAJDSTMENT = 1;
-  //1週間目
-  private firstWeek = Array<number>();
-  //2週間目
-  private secondWeek = Array<number>();
-  //3週間目
-  private thirdWeek = Array<number>();
-  //4週間目
-  private fourthWeek = Array<number>();
-  //5週間目
+  //
   private fifthWeek = Array<number>();
-  //6週間目
-  private sixthWeek = Array<number>();
   /**
    *指定した日付の支出一覧を取得する
    *
@@ -126,43 +116,43 @@ export default class XXXComponent extends Vue {
     console.log(this.year + "-" + this.month + "-" + this.day);
   }
   //今月の1週間目を配列で取得
-  get getFirstWeek(): Array<number> {
-    this.firstWeek = Array<number>();
+  get firstWeek(): Array<number> {
+    let firstWeek = Array<number>();
     for (
       let i = this.LastDateOfLastMonth;
       i - this.dayOfWeek + 1 <= this.LastDateOfLastMonth;
       i++
     ) {
-      this.firstWeek.push(i - this.dayOfWeek + 1);
+      firstWeek.push(i - this.dayOfWeek + 1);
     }
-    for (let i = 0; this.firstWeek.length < 7; i++) {
-      this.firstWeek.push(this.getmonthArr[i]);
+    for (let i = 0; firstWeek.length < 7; i++) {
+      firstWeek.push(this.getmonthArr[i]);
     }
-    return this.firstWeek;
+    return firstWeek;
   }
   //今月の2週間目を配列で取得
-  get getSecondWeek(): Array<number> {
-    this.secondWeek = Array<number>();
-    for (let i = 0; this.secondWeek.length < 7; i++) {
-      this.secondWeek.push(7 - this.dayOfWeek + 1 + i);
+  get SecondWeek(): Array<number> {
+    let secondWeek = Array<number>();
+    for (let i = 0; secondWeek.length < 7; i++) {
+      secondWeek.push(7 - this.dayOfWeek + 1 + i);
     }
-    return this.secondWeek;
+    return secondWeek;
   }
   //今月の3週間目を配列で取得
-  get getThirdWeek(): Array<number> {
-    this.thirdWeek = Array<number>();
-    for (let i = 0; this.thirdWeek.length < 7; i++) {
-      this.thirdWeek.push(7 - this.dayOfWeek + 1 + i + 7);
+  get ThirdWeek(): Array<number> {
+    let thirdWeek = Array<number>();
+    for (let i = 0; thirdWeek.length < 7; i++) {
+      thirdWeek.push(7 - this.dayOfWeek + 1 + i + 7);
     }
-    return this.thirdWeek;
+    return thirdWeek;
   }
   //今月の4週間目を配列で取得
-  get getFourthWeek(): Array<number> {
-    this.fourthWeek = Array<number>();
-    for (let i = 0; this.fourthWeek.length < 7; i++) {
-      this.fourthWeek.push(7 - this.dayOfWeek + 1 + i + 14);
+  get fourthWeek(): Array<number> {
+    let fourthWeek = Array<number>();
+    for (let i = 0; fourthWeek.length < 7; i++) {
+      fourthWeek.push(7 - this.dayOfWeek + 1 + i + 14);
     }
-    return this.fourthWeek;
+    return fourthWeek;
   }
   //今月の5週間目を配列で取得
   get getFifthWeek(): Array<number> {
@@ -178,23 +168,23 @@ export default class XXXComponent extends Vue {
     return this.fifthWeek;
   }
   //今月の6週間目を配列で取得
-  get getSixthWeek(): Array<number> {
-    this.sixthWeek = Array<number>();
-    for (let i = 1; this.sixthWeek.length < 7; i++) {
+  get sixthWeek(): Array<number> {
+    let sixthWeek = Array<number>();
+    for (let i = 1; sixthWeek.length < 7; i++) {
       if (this.fifthWeek[6] === this.lastDay) {
-        for (let j = 1; this.sixthWeek.length < 7; j++) {
-          this.sixthWeek.push(j);
+        for (let j = 1; sixthWeek.length < 7; j++) {
+          sixthWeek.push(j);
         }
       } else {
-        this.sixthWeek.push(this.fifthWeek[6] + i);
+        sixthWeek.push(this.fifthWeek[6] + i);
       }
       if (this.fifthWeek[6] + i === this.lastDay) {
-        for (let k = 1; this.sixthWeek.length < 7; k++) {
-          this.sixthWeek.push(k);
+        for (let k = 1; sixthWeek.length < 7; k++) {
+          sixthWeek.push(k);
         }
       }
     }
-    return this.sixthWeek;
+    return sixthWeek;
   }
   //今月の日付を配列に入れて取得
   get getmonthArr(): Array<number> {
