@@ -41,8 +41,18 @@ export default new Vuex.Store({
       };
     },
 
-    getspendingMap(state) {
-      return state.spendingMap;
+    getTotalSpending(state) {
+      return (date: string) => {
+        let totalSpending = 0;
+        const spendingList = state.spendingMap.get(date);
+        if (spendingList === undefined) {
+          return 0;
+        }
+        for (const spending of spendingList) {
+          totalSpending += Number(spending[1]);
+        }
+        return totalSpending;
+      };
     },
   },
   modules: {},

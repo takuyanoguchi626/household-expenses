@@ -17,73 +17,79 @@
         <option value="12">12月</option>
       </select>
     </div>
-    <div>
-      <table border="1">
-        <tr>
-          <th>日</th>
-          <th>月</th>
-          <th>火</th>
-          <th>水</th>
-          <th>木</th>
-          <th>金</th>
-          <th>土</th>
-        </tr>
-        <tr>
-          <td v-for="day1 of firstWeek" :key="day1">
-            <button @click="dayPush(day1)">
-              {{ day1 }}
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="day2 of SecondWeek" :key="day2">
-            <button @click="dayPush(day2)">
-              {{ day2 }}
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="day3 of thirdWeek" :key="day3">
-            <button @click="dayPush(day3)">
-              {{ day3 }}
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="day4 of fourthWeek" :key="day4">
-            <button @click="dayPush(day4)">
-              {{ day4 }}
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="day5 of getFifthWeek" :key="day5">
-            <button @click="dayPush(day5)">
-              {{ day5 }}
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td v-for="day6 of sixthWeek" :key="day6">
-            <button @click="dayPush(day6)">
-              {{ day6 }}
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <!-- 詳細内容 -->
-    <div>
-      <table>
-        <tr>
-          <th>カテゴリー</th>
-          <th>金額</th>
-        </tr>
-        <tr v-for="(spending, index) of spendings" :key="index">
-          <td>{{ spending[0] }}</td>
-          <td>{{ spending[1] }}</td>
-        </tr>
-      </table>
+    <div class="spendingTable">
+      <div>
+        <table border="1">
+          <tr>
+            <th>日</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+          </tr>
+          <tr>
+            <td v-for="day1 of firstWeek" :key="day1">
+              <button @click="dayPush(day1)">
+                {{ day1 }}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="day2 of secondWeek" :key="day2">
+              <button @click="dayPush(day2)">
+                {{ day2 }}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="day3 of thirdWeek" :key="day3">
+              <button @click="dayPush(day3)">
+                {{ day3 }}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="day4 of fourthWeek" :key="day4">
+              <button @click="dayPush(day4)">
+                {{ day4 }}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="day5 of getFifthWeek" :key="day5">
+              <button @click="dayPush(day5)">
+                {{ day5 }}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-for="day6 of sixthWeek" :key="day6">
+              <button @click="dayPush(day6)">
+                {{ day6 }}
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- 詳細内容 -->
+      <div>
+        <table>
+          <tr>
+            <th>カテゴリー</th>
+            <th>金額</th>
+          </tr>
+          <tr>
+            <th>合計金額</th>
+            <th>{{ totalSpending }}</th>
+          </tr>
+          <tr v-for="(spending, index) of spendings" :key="index">
+            <td>{{ spending[0] }}</td>
+            <td>{{ spending[1] }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -100,20 +106,39 @@ export default class XXXComponent extends Vue {
   private day = 0;
   //Dateの月の調整
   private MOONAJDSTMENT = 1;
-  //
+  //5週目
   private fifthWeek = Array<number>();
+  /**
+   * 日付を年月日つなげて取得する.
+   *
+   * @returns 年月日つなげた日付
+   */
+  get date(): string {
+    return this.year + "-" + this.month + "-" + this.day;
+  }
   /**
    *指定した日付の支出一覧を取得する
    *
    *@returns 指定した日付の支出一覧
    */
-  get spendings(): Map<string, Array<Array<string | number>>> {
-    let date = this.year + "-" + this.month + "-" + this.day;
-    return this.$store.getters.getSpendings(date);
+  get spendings(): Array<Array<string | number>> {
+    return this.$store.getters.getSpendings(this.date);
   }
+  /**
+   * 指定した日付の支出の合計を取得する.
+   *
+   * @returns 指定した日付の支出の合計
+   */
+  get totalSpending(): number {
+    return this.$store.getters.getTotalSpending(this.date);
+  }
+  /**
+   * 日付を選択する.
+   *
+   * @param - 日付
+   */
   dayPush(day: number): void {
     this.day = day;
-    console.log(this.year + "-" + this.month + "-" + this.day);
   }
   //今月の1週間目を配列で取得
   get firstWeek(): Array<number> {
@@ -131,7 +156,7 @@ export default class XXXComponent extends Vue {
     return firstWeek;
   }
   //今月の2週間目を配列で取得
-  get SecondWeek(): Array<number> {
+  get secondWeek(): Array<number> {
     let secondWeek = Array<number>();
     for (let i = 0; secondWeek.length < 7; i++) {
       secondWeek.push(7 - this.dayOfWeek + 1 + i);
@@ -139,7 +164,7 @@ export default class XXXComponent extends Vue {
     return secondWeek;
   }
   //今月の3週間目を配列で取得
-  get ThirdWeek(): Array<number> {
+  get thirdWeek(): Array<number> {
     let thirdWeek = Array<number>();
     for (let i = 0; thirdWeek.length < 7; i++) {
       thirdWeek.push(7 - this.dayOfWeek + 1 + i + 7);
@@ -227,5 +252,9 @@ table {
   margin: 0 auto;
   width: 400px;
   height: 400px;
+}
+
+.spendingTable {
+  display: flex;
 }
 </style>
