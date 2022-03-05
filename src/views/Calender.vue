@@ -2,7 +2,7 @@
   <div>
     <div>
       <input type="number" id="year" v-model.number="year" />年
-      <select v-model.number="month">
+      <select v-model.number="month" @change="getTotalPrice(month)">
         <option value="1">1月</option>
         <option value="2">2月</option>
         <option value="3">3月</option>
@@ -77,6 +77,18 @@
       <div>
         <table>
           <tr>
+            <td>収入</td>
+            <td>支出</td>
+            <td>合計</td>
+          </tr>
+          <tr>
+            <td>{{ totalIncoming }}</td>
+            <td>{{ totalSpending }}</td>
+            <td>{{ totalFinance }}</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
             <th>カテゴリー</th>
             <th>金額</th>
             <th>メモ</th>
@@ -111,8 +123,12 @@ export default class XXXComponent extends Vue {
   private MOONAJDSTMENT = 1;
   //5週目
   private fifthWeek = Array<number>();
-  //
+  //詳細
   private detailList = Array<Spending | Incoming>();
+  //
+  private totalIncoming = 0;
+  //
+  private totalSpending = 0;
   /**
    *
    */
@@ -120,15 +136,8 @@ export default class XXXComponent extends Vue {
     this.year = new Date().getFullYear();
     this.month = new Date().getMonth() + 1;
     this.day = new Date().getDate();
+    this.getTotalPrice(this.month);
   }
-  /**
-   * 日付を年月日つなげて取得する.
-   *
-   * @returns 年月日つなげた日付
-   */
-  // get date(): string {
-  //   return this.year + "," + this.month + "," + this.day;
-  // }
   /**
    *指定した日付の支出一覧を取得する
    *
@@ -154,14 +163,6 @@ export default class XXXComponent extends Vue {
     });
   }
   /**
-   * 指定した日付の支出の合計を取得する.
-   *
-   * @returns 指定した日付の支出の合計
-   */
-  // get totalSpending(): number {
-  //   return this.$store.getters.getTotalSpending(this.date);
-  // }
-  /**
    * 日付を選択する.
    *
    * @param - 日付
@@ -169,7 +170,22 @@ export default class XXXComponent extends Vue {
   dayPush(day: number): void {
     this.day = day;
     this.getDetailList();
-    console.log(this.detailList[0].id);
+  }
+  /**
+   *月の収入と支出それぞれの合計額を取得.
+   *
+   * @params - 月
+   */
+  getTotalPrice(month: number): void {
+    this.totalIncoming = this.$store.getters.getTotalIncoming(month);
+    this.totalSpending = this.$store.getters.getTotalSpinding(month);
+  }
+  /**
+   *その月の収支の合計を取得.
+   *
+   */
+  get totalFinance(): number {
+    return this.totalIncoming - this.totalSpending;
   }
   //以下カレンダーテーブルを作成するためのメソッド
   //今月の1週間目を配列で取得

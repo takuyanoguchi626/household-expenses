@@ -86,6 +86,31 @@ export default new Vuex.Store({
         return detailList;
       };
     },
+
+    getTotalIncoming(state) {
+      return (month: number) => {
+        let totalIncoming = 0;
+        const incomingList = state.incomingList.filter(
+          (incoming) => incoming.date.getMonth() === month
+        );
+        for (const incoming of incomingList) {
+          totalIncoming += incoming.incoming;
+        }
+        return totalIncoming;
+      };
+    },
+    getTotalSpinding(state) {
+      return (month: number) => {
+        let totalSpending = 0;
+        const spendingList = state.spendingList.filter(
+          (spending) => spending.date.getMonth() === month
+        );
+        for (const spending of spendingList) {
+          totalSpending += spending.spending;
+        }
+        return totalSpending;
+      };
+    },
   },
   modules: {},
 });
