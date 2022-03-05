@@ -2,7 +2,7 @@
   <div>
     <form>
       <div>
-        <input type="number" id="year" v-model.number="year" />年
+        日付：<input type="number" id="year" v-model.number="year" />年
         <select v-model.number="month">
           <option value="-">--</option>
           <option value="1">1月</option>
@@ -60,7 +60,7 @@ export default class XXXComponent extends Vue {
   //カテゴリー
   private category = "";
   //支出
-  private spending = 0;
+  private spending = "";
   //支出入力完了メッセージ
   private setSpendingMessage = "";
   /**
@@ -90,6 +90,10 @@ export default class XXXComponent extends Vue {
       spending: this.spending,
     });
     this.setSpendingMessage = "支出の入力が完了しました！";
+    this.spending = "";
+    setTimeout(() => {
+      this.resetSpending();
+    }, 5000);
   }
   /**
    * 支出入力完了メッセージをリセットする.
