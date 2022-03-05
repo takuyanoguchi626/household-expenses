@@ -25,8 +25,25 @@
           <option v-for="day of days" :key="day">{{ day }}</option></select
         >日
       </div>
-      <!-- カテゴリーを選択 -->
+      <!-- 支出か収入を選択 -->
       <div>
+        <input
+          type="radio"
+          name="finance"
+          id="spendingButton"
+          value="spending"
+          v-model="financeButton"
+        /><label for="spendingButton">支出</label>
+        <input
+          type="radio"
+          name="finance"
+          id="incomingButton"
+          value="incoming"
+          v-model="financeButton"
+        /><label for="incomingButton">収入</label>
+      </div>
+      <!-- カテゴリーを選択 -->
+      <div v-if="financeButton === 'spending'">
         支出カテゴリー：
         <select v-model="spendingCategory">
           <option value="">カテゴリーを選択してください</option>
@@ -37,15 +54,35 @@
           <option>日用品費</option>
         </select>
       </div>
+      <div v-if="financeButton === 'incoming'">
+        収入カテゴリー：
+        <select v-model="incomingCategory">
+          <option value="">カテゴリーを選択してください</option>
+          <option>今月分</option>
+          <option>給料</option>
+          <option>賞与</option>
+          <option>副業</option>
+          <option>投資</option>
+        </select>
+      </div>
       <!-- 金額を入力 -->
-      <div>支出：<input type="number" v-model="spending" />円</div>
+      <div v-if="financeButton === 'spending'">
+        支出：<input type="number" v-model="spending" />円
+      </div>
+      <div v-if="financeButton === 'incoming'">
+        収入：<input type="number" v-model="incoming" />円
+      </div>
       <!-- メモを入力 -->
       <div>メモ：<input type="text" v-model="memo" /></div>
       <!-- 入力した内容をストアに保存する -->
-      <div>
+      <div v-if="financeButton === 'spending'">
         <button type="button" @click="setSpending">支出を入力する</button>
       </div>
+      <div v-if="financeButton === 'incoming'">
+        <button type="button" @click="setIncoming">収入を入力する</button>
+      </div>
       {{ setSpendingMessage }}
+      {{ setIncomingMessage }}
     </form>
   </div>
 </template>
@@ -76,6 +113,8 @@ export default class XXXComponent extends Vue {
   private setIncomingMessage = "";
   //メモ
   private memo = "";
+  //
+  private financeButton = "spending";
   /**
    *今日の日付を入力欄に表示する.
    *
@@ -126,6 +165,8 @@ export default class XXXComponent extends Vue {
     this.setSpendingMessage = "支出の入力が完了しました！";
     this.spending = "";
     this.memo = "";
+    this.incoming = "";
+    this.memo = "";
     setTimeout(() => {
       this.resetSpending();
     }, 5000);
@@ -153,6 +194,8 @@ export default class XXXComponent extends Vue {
       incoming: incoming,
     });
     this.setIncomingMessage = "収入の入力が完了しました！";
+    this.spending = "";
+    this.memo = "";
     this.incoming = "";
     this.memo = "";
     setTimeout(() => {
