@@ -19,8 +19,8 @@
     </div>
     <div class="spendingTable">
       <div>
-        <table border="1">
-          <tr>
+        <table>
+          <tr class="dayOfWeek">
             <th>日</th>
             <th>月</th>
             <th>火</th>
@@ -31,44 +31,47 @@
           </tr>
           <tr>
             <td v-for="day1 of firstWeek" :key="day1">
-              <button @click="dayPush(day1)">
+              <button class="dayButton" @click="dayPush(day1)" v-if="day1 < 8">
                 {{ day1 }}
               </button>
+              <span v-else class="dayOtherMonth">{{ day1 }}</span>
             </td>
           </tr>
           <tr>
             <td v-for="day2 of secondWeek" :key="day2">
-              <button @click="dayPush(day2)">
+              <button class="dayButton" @click="dayPush(day2)">
                 {{ day2 }}
               </button>
             </td>
           </tr>
           <tr>
             <td v-for="day3 of thirdWeek" :key="day3">
-              <button @click="dayPush(day3)">
+              <button class="dayButton" @click="dayPush(day3)">
                 {{ day3 }}
               </button>
             </td>
           </tr>
           <tr>
             <td v-for="day4 of fourthWeek" :key="day4">
-              <button @click="dayPush(day4)">
+              <button class="dayButton" @click="dayPush(day4)">
                 {{ day4 }}
               </button>
             </td>
           </tr>
           <tr>
             <td v-for="day5 of getFifthWeek" :key="day5">
-              <button @click="dayPush(day5)">
+              <button class="dayButton" @click="dayPush(day5)" v-if="day5 > 14">
                 {{ day5 }}
               </button>
+              <span v-else class="dayOtherMonth">{{ day5 }}</span>
             </td>
           </tr>
           <tr>
             <td v-for="day6 of sixthWeek" :key="day6">
-              <button @click="dayPush(day6)">
+              <button class="dayButton" @click="dayPush(day6)" v-if="day6 > 14">
                 {{ day6 }}
               </button>
+              <span v-else class="dayOtherMonth">{{ day6 }}</span>
             </td>
           </tr>
         </table>
