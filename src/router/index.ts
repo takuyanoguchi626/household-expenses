@@ -22,12 +22,12 @@ const routes: Array<RouteConfig> = [
   {
     path: "/calender",
     name: "",
-    component: () => import("../views/householdCalender.vue"),
+    component: () => import("../views/Calender.vue"),
   },
   {
     path: "/calculator",
     name: "",
-    component: () => import("../views/householdCalculator.vue"),
+    component: () => import("../views/Calculator.vue"),
   },
 ];
 
