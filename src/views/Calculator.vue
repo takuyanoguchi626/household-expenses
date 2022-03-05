@@ -2,7 +2,9 @@
   <div>
     <form>
       <div>
+        <!-- 年を選択 -->
         日付：<input type="number" id="year" v-model.number="year" />年
+        <!-- 月を選択 -->
         <select v-model.number="month">
           <option value="-">--</option>
           <option value="1">1</option>
@@ -18,15 +20,15 @@
           <option value="11">11</option>
           <option value="12">12</option></select
         >月
-
+        <!-- 日を選択 -->
         <select v-model="day">
           <option v-for="day of days" :key="day">{{ day }}</option></select
         >日
       </div>
-
+      <!-- カテゴリーを選択 -->
       <div>
-        カテゴリー：
-        <select v-model="category">
+        支出カテゴリー：
+        <select v-model="spendingCategory">
           <option value="">カテゴリーを選択してください</option>
           <option>食費</option>
           <option>交際費</option>
@@ -35,12 +37,13 @@
           <option>日用品費</option>
         </select>
       </div>
-
+      <!-- 金額を入力 -->
       <div>支出：<input type="number" v-model="spending" />円</div>
-
+      <!-- メモを入力 -->
+      <div>メモ：<input type="text" v-model="memo" /></div>
+      <!-- 入力した内容をストアに保存する -->
       <div>
         <button type="button" @click="setSpending">支出を入力する</button>
-        <button type="reset" @click="resetSpending">クリア</button>
       </div>
       {{ setSpendingMessage }}
     </form>
@@ -48,25 +51,37 @@
 </template>
 
 <script lang="ts">
+import { Spending } from "@/type/spending";
+import { Incoming } from "@/type/incoming";
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class XXXComponent extends Vue {
   //年
-  private year = 2022;
+  private year = 0;
   //月
   private month = 0;
   //日
   private day = 0;
-  //カテゴリー
-  private category = "";
+  //支出カテゴリー
+  private spendingCategory = "";
   //支出
   private spending = "";
   //支出入力完了メッセージ
   private setSpendingMessage = "";
+  //収入カテゴリー
+  private incomingCategory = "";
+  //収入
+  private incoming = "";
+  //収入入力完了メッセージ
+  private setIncomingMessage = "";
+  //メモ
+  private memo = "";
   /**
+   *今日の日付を入力欄に表示する.
    *
    */
   created(): void {
+    this.year = new Date().getFullYear();
     this.month = new Date().getMonth() + 1;
     this.day = new Date().getDate();
   }
@@ -91,15 +106,57 @@ export default class XXXComponent extends Vue {
    *
    */
   setSpending(): void {
+    let spending = new Spending(
+      2,
+      new Date(
+        this.year,
+        this.month,
+        this.day,
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      ),
+      this.spendingCategory,
+      Number(this.spending),
+      this.memo
+    );
     this.$store.commit("setSpending", {
-      date: this.date,
-      category: this.category,
-      spending: this.spending,
+      spending: spending,
     });
     this.setSpendingMessage = "支出の入力が完了しました！";
     this.spending = "";
+    this.memo = "";
     setTimeout(() => {
       this.resetSpending();
+    }, 5000);
+  }
+  /**
+   * 入力した収入をストアに追加.
+   *
+   */
+  setIncoming(): void {
+    let incoming = new Incoming(
+      1,
+      new Date(
+        this.year,
+        this.month,
+        this.day,
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      ),
+      this.incomingCategory,
+      Number(this.incoming),
+      this.memo
+    );
+    this.$store.commit("setIncoming", {
+      incoming: incoming,
+    });
+    this.setIncomingMessage = "収入の入力が完了しました！";
+    this.incoming = "";
+    this.memo = "";
+    setTimeout(() => {
+      this.resetIncoming();
     }, 5000);
   }
   /**
@@ -108,6 +165,13 @@ export default class XXXComponent extends Vue {
    */
   resetSpending(): void {
     this.setSpendingMessage = "";
+  }
+  /**
+   * 収入入力完了メッセージをリセットする.
+   *
+   */
+  resetIncoming(): void {
+    this.setIncomingMessage = "";
   }
 }
 </script>

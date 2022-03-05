@@ -1,9 +1,9 @@
-export class Spending {
+export class Incoming {
   constructor(
     private _id: number,
     private _date: Date,
-    private _spendingCategory: string,
-    private _spending: number,
+    private _incomingCategory: string,
+    private _incoming: number,
     private _memo: string
   ) {}
 
@@ -23,20 +23,20 @@ export class Spending {
     this._date = date;
   }
 
-  public get spendingCategory(): string {
-    return this._spendingCategory;
+  public get incomingCategory(): string {
+    return this._incomingCategory;
   }
 
-  public set spendingCategory(spendingCategory: string) {
-    this._spendingCategory = spendingCategory;
+  public set incomingCategory(incomingCategory: string) {
+    this._incomingCategory = incomingCategory;
   }
 
-  public get spending(): number {
-    return this._spending;
+  public get incoming(): number {
+    return this._incoming;
   }
 
-  public set spending(spending: number) {
-    this._spending = spending;
+  public set incoming(incoming: number) {
+    this._incoming = incoming;
   }
 
   public get memo(): string {

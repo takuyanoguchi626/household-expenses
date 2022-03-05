@@ -73,20 +73,21 @@
           </tr>
         </table>
       </div>
-      <!-- 詳細内容 -->
+      <!-- 選択した日付の詳細内容 -->
       <div>
         <table>
           <tr>
             <th>カテゴリー</th>
             <th>金額</th>
+            <th>メモ</th>
           </tr>
-          <tr>
-            <th>合計金額</th>
-            <th>{{ totalSpending }}</th>
-          </tr>
-          <tr v-for="(spending, index) of spendings" :key="index">
-            <td>{{ spending[0] }}</td>
-            <td>{{ spending[1] }}</td>
+          <tr v-for="(detail, index) of detailList" :key="index">
+            <td v-if="detail.id === 1">{{ detail.incomingCategory }}</td>
+            <td v-if="detail.id === 1">{{ detail.incoming }}</td>
+            <td v-if="detail.id === 1">{{ detail.memo }}</td>
+            <td v-if="detail.id === 2">{{ detail.spendingCategory }}</td>
+            <td v-if="detail.id === 2">{{ detail.spending }}</td>
+            <td v-if="detail.id === 2">{{ detail.memo }}</td>
           </tr>
         </table>
       </div>
@@ -95,11 +96,13 @@
 </template>
 
 <script lang="ts">
+import { Incoming } from "@/type/incoming";
+import { Spending } from "@/type/spending";
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class XXXComponent extends Vue {
   //年
-  private year = 2022;
+  private year = 0;
   //月
   private month = 0;
   //日
@@ -108,30 +111,56 @@ export default class XXXComponent extends Vue {
   private MOONAJDSTMENT = 1;
   //5週目
   private fifthWeek = Array<number>();
+  //
+  private detailList = Array<Spending | Incoming>();
+  /**
+   *
+   */
+  created(): void {
+    this.year = new Date().getFullYear();
+    this.month = new Date().getMonth() + 1;
+    this.day = new Date().getDate();
+  }
   /**
    * 日付を年月日つなげて取得する.
    *
    * @returns 年月日つなげた日付
    */
-  get date(): string {
-    return this.year + "-" + this.month + "-" + this.day;
-  }
+  // get date(): string {
+  //   return this.year + "," + this.month + "," + this.day;
+  // }
   /**
    *指定した日付の支出一覧を取得する
    *
    *@returns 指定した日付の支出一覧
    */
-  get spendings(): Array<Array<string | number>> {
-    return this.$store.getters.getSpendings(this.date);
+  getDetailList(): void {
+    this.detailList = new Array<Spending | Incoming>();
+    const storeDetailList = this.$store.getters.getDetailList(
+      new Date(this.year, this.month, this.day)
+    );
+    for (const detail of storeDetailList) {
+      this.detailList.push(detail);
+      console.log(typeof detail);
+    }
+    this.detailList.sort((a, b) => {
+      if (b.date.getHours() - a.date.getHours() !== 0) {
+        return b.date.getHours() - a.date.getHours();
+      } else if (b.date.getMinutes() - a.date.getMinutes() !== 0) {
+        return b.date.getMinutes() - a.date.getMinutes();
+      } else {
+        return b.date.getSeconds() - a.date.getSeconds();
+      }
+    });
   }
   /**
    * 指定した日付の支出の合計を取得する.
    *
    * @returns 指定した日付の支出の合計
    */
-  get totalSpending(): number {
-    return this.$store.getters.getTotalSpending(this.date);
-  }
+  // get totalSpending(): number {
+  //   return this.$store.getters.getTotalSpending(this.date);
+  // }
   /**
    * 日付を選択する.
    *
@@ -139,7 +168,10 @@ export default class XXXComponent extends Vue {
    */
   dayPush(day: number): void {
     this.day = day;
+    this.getDetailList();
+    console.log(this.detailList[0].id);
   }
+  //以下カレンダーテーブルを作成するためのメソッド
   //今月の1週間目を配列で取得
   get firstWeek(): Array<number> {
     let firstWeek = Array<number>();
