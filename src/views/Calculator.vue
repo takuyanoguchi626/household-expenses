@@ -5,23 +5,23 @@
         日付：<input type="number" id="year" v-model.number="year" />年
         <select v-model.number="month">
           <option value="-">--</option>
-          <option value="1">1月</option>
-          <option value="2">2月</option>
-          <option value="3">3月</option>
-          <option value="4">4月</option>
-          <option value="5">5月</option>
-          <option value="6">6月</option>
-          <option value="7">7月</option>
-          <option value="8">8月</option>
-          <option value="9">9月</option>
-          <option value="10">10月</option>
-          <option value="11">11月</option>
-          <option value="12">12月</option>
-        </select>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option></select
+        >月
 
         <select v-model="day">
-          <option v-for="day of days" :key="day">{{ day }}</option>
-        </select>
+          <option v-for="day of days" :key="day">{{ day }}</option></select
+        >日
       </div>
 
       <div>
@@ -63,6 +63,13 @@ export default class XXXComponent extends Vue {
   private spending = "";
   //支出入力完了メッセージ
   private setSpendingMessage = "";
+  /**
+   *
+   */
+  created(): void {
+    this.month = new Date().getMonth() + 1;
+    this.day = new Date().getDate();
+  }
   /**
    * 今月の最終日を取得.
    *
