@@ -145,6 +145,9 @@ export default class XXXComponent extends Vue {
    *
    */
   setSpending(): void {
+    if (this.memo === "") {
+      this.memo = "-";
+    }
     let spending = new Spending(
       2,
       new Date(
@@ -176,6 +179,9 @@ export default class XXXComponent extends Vue {
    *
    */
   setIncoming(): void {
+    if (this.memo === "") {
+      this.memo = "-";
+    }
     let incoming = new Incoming(
       1,
       new Date(
