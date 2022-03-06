@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+.headWrapper {
+  display: flex;
+  background-color: aquamarine;
+}
+
+.headImage {
+  display: block;
+  width: 70px;
+  height: 70px;
+  text-align: left;
+}
+
+.category {
+  margin: 0 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.cate {
+  display: flex;
+  align-items: center;
+  font-family: "Sawarabi Gothic", sans-serif;
+}
+
+.categoryIcon1 {
+  width: 30px;
+  height: 30px;
+}
+
+.categoryIcon2 {
+  width: 40px;
+  height: 40px;
+}
+
+.categoryIcon3 {
+  width: 35px;
+  height: 35px;
+}

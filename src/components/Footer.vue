@@ -1,4 +1,5 @@
 <template>
+  <!-- headerのコピーのまま -->
   <div class="headWrapper">
     <img class="headImage" src="../../public/img/icon_psyduck.png" alt="" />
     <div class="category">
@@ -31,7 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component
-export default class Header extends Vue {}
+export default class Footer extends Vue {}
 </script>
 
 <style scoped></style>

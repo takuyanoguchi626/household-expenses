@@ -1,5 +1,5 @@
 <template>
-  <div class="calenderWrapper">
+  <div class="container calenderWrapper">
     <div>
       <input type="number" id="year" v-model.number="year" />年
       <select v-model.number="month" @change="getTotalPrice(month)">
