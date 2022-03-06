@@ -1,25 +1,26 @@
 <template>
-  <div>
+  <div class="calenderWrapper">
     <div>
       <input type="number" id="year" v-model.number="year" />年
       <select v-model.number="month" @change="getTotalPrice(month)">
-        <option value="1">1月</option>
-        <option value="2">2月</option>
-        <option value="3">3月</option>
-        <option value="4">4月</option>
-        <option value="5">5月</option>
-        <option value="6">6月</option>
-        <option value="7">7月</option>
-        <option value="8">8月</option>
-        <option value="9">9月</option>
-        <option value="10">10月</option>
-        <option value="11">11月</option>
-        <option value="12">12月</option>
-      </select>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option></select
+      >月
+      <span>{{ day }}日</span>
     </div>
     <div class="spendingTable">
       <div>
-        <table>
+        <table class="calenderTable">
           <tr class="dayOfWeek">
             <th>日</th>
             <th>月</th>
@@ -77,20 +78,20 @@
         </table>
       </div>
       <!-- 選択した日付の詳細内容 -->
-      <div>
-        <table>
+      <div class="detail">
+        <table border="1" class="totalTable">
           <tr>
-            <td>収入</td>
-            <td>支出</td>
-            <td>合計</td>
+            <td class="totalNum">収入</td>
+            <td class="totalNum">支出</td>
+            <td class="totalNum">合計</td>
           </tr>
           <tr>
-            <td>{{ totalIncoming }}</td>
-            <td>{{ totalSpending }}</td>
-            <td>{{ totalFinance }}</td>
+            <td class="totalNum">{{ totalIncoming }}円</td>
+            <td class="totalNum">{{ totalSpending }}円</td>
+            <td class="totalNum">{{ totalFinance }}円</td>
           </tr>
         </table>
-        <table>
+        <table class="detailTable" border="1">
           <tr>
             <th>カテゴリー</th>
             <th>金額</th>
@@ -98,10 +99,10 @@
           </tr>
           <tr v-for="(detail, index) of detailList" :key="index">
             <td v-if="detail.id === 1">{{ detail.incomingCategory }}</td>
-            <td v-if="detail.id === 1">{{ detail.incoming }}</td>
+            <td v-if="detail.id === 1">{{ detail.incoming }}円</td>
             <td v-if="detail.id === 1">{{ detail.memo }}</td>
             <td v-if="detail.id === 2">{{ detail.spendingCategory }}</td>
-            <td v-if="detail.id === 2">{{ detail.spending }}</td>
+            <td v-if="detail.id === 2">{{ detail.spending }}円</td>
             <td v-if="detail.id === 2">{{ detail.memo }}</td>
           </tr>
         </table>
@@ -293,19 +294,4 @@ export default class XXXComponent extends Vue {
 }
 </script>
 
-<style scoped>
-#year {
-  text-align: right;
-  width: 50px;
-}
-
-table {
-  margin: 0 auto;
-  width: 400px;
-  height: 400px;
-}
-
-.spendingTable {
-  display: flex;
-}
-</style>
+<style scoped></style>
