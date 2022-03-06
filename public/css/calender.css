@@ -1,7 +1,25 @@
 @charset "UTF-8";
 
+.calenderWrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#year {
+  text-align: right;
+  width: 50px;
+}
+
+.spendingTable {
+  display: flex;
+}
+
+.calenderTable {
+  width: 400px;
+  height: 400px;
+}
+
 .dayButton {
-  /* position: absolute; */
   width: 100%;
   height: 100%;
   background-color: greenyellow;
@@ -24,4 +42,24 @@
 .dayOfWeek {
   height: 30px;
   background-color: tomato;
+}
+
+.totalTable {
+  width: 400px;
+}
+
+.totalNum {
+  height: 30px;
+}
+
+.detail {
+  height: 300px;
+}
+
+.detailTable {
+  width: 400px;
+}
+
+.detail {
+  margin-left: 100px;
 }
