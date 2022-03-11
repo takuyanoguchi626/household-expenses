@@ -20,9 +20,9 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/Calculator.vue"),
   },
   {
-    path: "/chart",
+    path: "/showChart",
     name: "",
-    component: () => import("../views/Chart.vue"),
+    component: () => import("../views/ShowChart.vue"),
   },
 ];
 

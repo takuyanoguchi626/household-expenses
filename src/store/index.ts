@@ -12,6 +12,8 @@ export default new Vuex.Store({
   state: {
     spendingList: new Array<Spending>(),
     incomingList: new Array<Incoming>(),
+    spendingCategory: ["食費", "交際費", "娯楽", "交通費", "日用品費"],
+    incomingCategory: ["今月分", "給料", "賞与", "副業", "投資"],
   },
 
   actions: {},
@@ -25,16 +27,6 @@ export default new Vuex.Store({
      */
     setSpending(state, payload) {
       state.spendingList.push(payload.spending);
-      // const existingSpending = state.spendingMap.get(payload.date);
-      // if (existingSpending === undefined) {
-      //   state.spendingMap.set(payload.date, [
-      //     [payload.category, payload.spending],
-      //   ]);
-      //   return;
-      // }
-      // existingSpending.push([payload.category, payload.spending]);
-      // state.spendingMap.set(payload.date, existingSpending);
-      // console.log(existingSpending);
     },
     /**
      * 収入内容をステートの収入マップに追加
@@ -44,18 +36,8 @@ export default new Vuex.Store({
      */
     setIncoming(state, payload) {
       state.incomingList.push(payload.incoming);
-      // const existingIncoming = state.incomingMap.get(payload.date);
-      // if (existingIncoming === undefined) {
-      //   state.incomingMap.set(payload.date, [
-      //     [payload.category, payload.spending],
-      //   ]);
-      //   return;
-      // }
-      // existingIncoming.push([payload.category, payload.incoming]);
-      // state.incomingMap.set(payload.date, existingIncoming);
-      // console.log(existingIncoming);
     },
-  },
+  }, //end mutations
 
   getters: {
     getDetailList(state) {
@@ -111,6 +93,62 @@ export default new Vuex.Store({
         return totalSpending;
       };
     },
-  },
+    getSpendingCategory(state) {
+      return state.spendingCategory;
+    },
+    getIncomingCategory(state) {
+      return state.incomingCategory;
+    },
+    getTotalSpendingbyCategory(state) {
+      const TotalPricebyCategoryMap = new Map();
+      const TotalPricebyCategory = new Array<number>();
+      for (const spending of state.spendingList) {
+        for (const category of state.spendingCategory) {
+          if (
+            spending.spendingCategory === category &&
+            spending.date.getMonth() === new Date().getMonth() + 1
+          ) {
+            if (TotalPricebyCategoryMap.get(category) === undefined) {
+              TotalPricebyCategoryMap.set(category, spending.spending);
+            } else {
+              TotalPricebyCategoryMap.set(
+                category,
+                TotalPricebyCategoryMap.get(category) + spending.spending
+              );
+            }
+          }
+        }
+      }
+      for (const category of state.spendingCategory) {
+        TotalPricebyCategory.push(TotalPricebyCategoryMap.get(category));
+      }
+      return TotalPricebyCategory;
+    },
+    getTotalIncomingbyCategory(state) {
+      const TotalIncomingbyCategoryMap = new Map();
+      const TotalIncomingbyCategory = new Array<number>();
+      for (const incoming of state.incomingList) {
+        for (const category of state.incomingCategory) {
+          if (
+            incoming.incomingCategory === category &&
+            incoming.date.getMonth() === new Date().getMonth() + 1
+          ) {
+            if (TotalIncomingbyCategoryMap.get(category) === undefined) {
+              TotalIncomingbyCategoryMap.set(category, incoming.incoming);
+            } else {
+              TotalIncomingbyCategoryMap.set(
+                category,
+                TotalIncomingbyCategoryMap.get(category) + incoming.incoming
+              );
+            }
+          }
+        }
+      }
+      for (const category of state.incomingCategory) {
+        TotalIncomingbyCategory.push(TotalIncomingbyCategoryMap.get(category));
+      }
+      return TotalIncomingbyCategory;
+    },
+  }, //end getters
   modules: {},
 });
