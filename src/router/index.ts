@@ -10,15 +10,6 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/Calender.vue"),
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
-  {
     path: "/calender",
     name: "",
     component: () => import("../views/Calender.vue"),
@@ -27,6 +18,11 @@ const routes: Array<RouteConfig> = [
     path: "/calculator",
     name: "",
     component: () => import("../views/Calculator.vue"),
+  },
+  {
+    path: "/chart",
+    name: "",
+    component: () => import("../views/Chart.vue"),
   },
 ];
 
