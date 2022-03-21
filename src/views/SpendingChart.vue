@@ -4,6 +4,7 @@ import { Doughnut } from "vue-chartjs";
 export default {
   extends: Doughnut,
   name: "SpendingChart",
+  props: ["year", "month"],
   data() {
     return {
       test: this.test2,
@@ -12,7 +13,12 @@ export default {
         datasets: [
           {
             label: "Doughnut Dataset",
-            data: [...this.$store.getters.getTotalSpendingbyCategory],
+            data: [
+              ...this.$store.getters.getTotalSpendingbyCategory(
+                this.year,
+                this.month
+              ),
+            ],
             backgroundColor: [
               "rgba(255, 99, 132, 0.6)",
               "rgba(54, 162, 235, 0.6)",
@@ -38,35 +44,38 @@ export default {
           //   },
         ],
       },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: "Month",
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                stepSize: 0.1,
-              },
+      // options: {
+      //   scales: {
+      //     xAxes: [
+      //       {
+      //         scaleLabel: {
+      //           display: true,
+      //           labelString: "Month",
+      //         },
+      //       },
+      //     ],
+      //     yAxes: [
+      //       {
+      //         ticks: {
+      //           beginAtZero: true,
+      //           stepSize: 0.1,
+      //         },
 
-              scaleLabel: {
-                display: true,
-                labelString: "aaa",
-              },
-            },
-          ],
-        },
-      },
+      //         scaleLabel: {
+      //           display: true,
+      //           labelString: "aaa",
+      //         },
+      //       },
+      //     ],
+      //   },
+      // },
     };
   },
   mounted() {
     this.renderChart(this.data, this.options);
+    console.log(
+      this.$store.getters.getTotalSpendingbyCategory(this.year, this.month)
+    );
   },
 };
 </script>

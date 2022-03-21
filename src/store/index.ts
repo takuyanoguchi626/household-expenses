@@ -100,29 +100,32 @@ export default new Vuex.Store({
       return state.incomingCategory;
     },
     getTotalSpendingbyCategory(state) {
-      const TotalPricebyCategoryMap = new Map();
-      const TotalPricebyCategory = new Array<number>();
-      for (const spending of state.spendingList) {
-        for (const category of state.spendingCategory) {
-          if (
-            spending.spendingCategory === category &&
-            spending.date.getMonth() === new Date().getMonth() + 1
-          ) {
-            if (TotalPricebyCategoryMap.get(category) === undefined) {
-              TotalPricebyCategoryMap.set(category, spending.spending);
-            } else {
-              TotalPricebyCategoryMap.set(
-                category,
-                TotalPricebyCategoryMap.get(category) + spending.spending
-              );
+      return (year: number, month: number) => {
+        const TotalPricebyCategoryMap = new Map();
+        const TotalPricebyCategory = new Array<number>();
+        for (const spending of state.spendingList) {
+          for (const category of state.spendingCategory) {
+            if (
+              spending.spendingCategory === category &&
+              spending.date.getMonth() === month &&
+              spending.date.getFullYear() === year
+            ) {
+              if (TotalPricebyCategoryMap.get(category) === undefined) {
+                TotalPricebyCategoryMap.set(category, spending.spending);
+              } else {
+                TotalPricebyCategoryMap.set(
+                  category,
+                  TotalPricebyCategoryMap.get(category) + spending.spending
+                );
+              }
             }
           }
         }
-      }
-      for (const category of state.spendingCategory) {
-        TotalPricebyCategory.push(TotalPricebyCategoryMap.get(category));
-      }
-      return TotalPricebyCategory;
+        for (const category of state.spendingCategory) {
+          TotalPricebyCategory.push(TotalPricebyCategoryMap.get(category));
+        }
+        return TotalPricebyCategory;
+      };
     },
     getTotalIncomingbyCategory(state) {
       const TotalIncomingbyCategoryMap = new Map();
