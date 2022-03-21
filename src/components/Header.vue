@@ -20,10 +20,12 @@
           カレンダー</span
         ></router-link
       >
-      <span class="cate"
-        ><img class="categoryIcon3" src="../../public/img/分析アイコン.png" />
-        レポート</span
-      >
+      <router-link to="/showChart">
+        <span class="cate"
+          ><img class="categoryIcon3" src="../../public/img/分析アイコン.png" />
+          レポート</span
+        >
+      </router-link>
     </div>
   </div>
 </template>

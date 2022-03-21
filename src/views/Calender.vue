@@ -1,21 +1,27 @@
 <template>
   <div class="container calenderWrapper">
-    <div>
+    <div class="form">
       <input type="number" id="year" v-model.number="year" />年
-      <select v-model.number="month" @change="getTotalPrice(month)">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option></select
-      >月
+      <div class="input-field col s3 form">
+        <select
+          v-model.number="month"
+          @change="getTotalPrice(month)"
+          class="browser-default"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option></select
+        >月
+      </div>
       <span>{{ day }}日</span>
     </div>
     <div class="spendingTable">
@@ -294,4 +300,10 @@ export default class XXXComponent extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

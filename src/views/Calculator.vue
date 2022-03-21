@@ -1,51 +1,60 @@
 <template>
   <div class="container">
     <form>
-      <div>
+      <div class="form">
         <!-- 年を選択 -->
         日付：<input type="number" id="year" v-model.number="year" />年
         <!-- 月を選択 -->
-        <select v-model.number="month">
-          <option value="-">--</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option></select
-        >月
+        <div class="input-field col s3 form">
+          <select v-model.number="month" class="browser-default">
+            <option value="-">--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option></select
+          >月
+        </div>
         <!-- 日を選択 -->
-        <select v-model="day">
-          <option v-for="day of days" :key="day">{{ day }}</option></select
-        >日
+        <div class="input-field col s3 form">
+          <select v-model="day" class="browser-default">
+            <option v-for="day of days" :key="day">{{ day }}</option></select
+          >日
+        </div>
       </div>
       <!-- 支出か収入を選択 -->
       <div>
-        <input
-          type="radio"
-          name="finance"
-          id="spendingButton"
-          value="spending"
-          v-model="financeButton"
-        /><label for="spendingButton">支出</label>
-        <input
-          type="radio"
-          name="finance"
-          id="incomingButton"
-          value="incoming"
-          v-model="financeButton"
-        /><label for="incomingButton">収入</label>
+        <label for="spendingButton">
+          <input
+            type="radio"
+            name="finance"
+            id="spendingButton"
+            value="spending"
+            v-model="financeButton"
+          /><span>支出</span>
+        </label>
+        <label for="incomingButton">
+          <input
+            type="radio"
+            name="finance"
+            id="incomingButton"
+            value="incoming"
+            v-model="financeButton"
+          />
+          <span> 収入 </span>
+        </label>
       </div>
       <!-- カテゴリーを選択 -->
-      <div v-if="financeButton === 'spending'">
-        支出カテゴリー：
-        <select v-model="spendingCategory">
+      <div v-if="financeButton === 'spending'" class="category">
+        <span class="category2"> 支出カテゴリー： </span>
+        <select v-model="spendingCategory" class="browser-default category3">
           <option value="">カテゴリーを選択してください</option>
           <option>食費</option>
           <option>交際費</option>
@@ -54,9 +63,9 @@
           <option>日用品費</option>
         </select>
       </div>
-      <div v-if="financeButton === 'incoming'">
-        収入カテゴリー：
-        <select v-model="incomingCategory">
+      <div v-if="financeButton === 'incoming'" class="category">
+        <span class="category2"> 収入カテゴリー：</span>
+        <select v-model="incomingCategory" class="browser-default category3">
           <option value="">カテゴリーを選択してください</option>
           <option>今月分</option>
           <option>給料</option>
@@ -66,20 +75,37 @@
         </select>
       </div>
       <!-- 金額を入力 -->
-      <div v-if="financeButton === 'spending'">
-        支出：<input type="number" v-model="spending" />円
+      <div v-if="financeButton === 'spending'" class="category">
+        <span class="category4">支出：</span>
+        <div>
+          <input type="text" v-model="spending" />
+        </div>
+        <span>円</span>
       </div>
-      <div v-if="financeButton === 'incoming'">
-        収入：<input type="number" v-model="incoming" />円
+      <div v-if="financeButton === 'incoming'" class="category">
+        <span class="category4"> 収入：</span>
+        <div>
+          <input type="number" v-model="incoming" />
+        </div>
+        円
       </div>
       <!-- メモを入力 -->
-      <div>メモ：<input type="text" v-model="memo" /></div>
+      <div class="category">
+        <span class="category4">メモ：</span>
+        <div>
+          <input type="text" v-model="memo" />
+        </div>
+      </div>
       <!-- 入力した内容をストアに保存する -->
       <div v-if="financeButton === 'spending'">
-        <button type="button" @click="setSpending">支出を入力する</button>
+        <button type="button" class="btn" @click="setSpending">
+          支出を入力する
+        </button>
       </div>
       <div v-if="financeButton === 'incoming'">
-        <button type="button" @click="setIncoming">収入を入力する</button>
+        <button type="button" class="btn" @click="setIncoming">
+          収入を入力する
+        </button>
       </div>
       {{ setSpendingMessage }}
       {{ setIncomingMessage }}
@@ -225,4 +251,24 @@ export default class XXXComponent extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.category {
+  display: flex;
+  justify-content: center;
+}
+.category2 {
+  width: 150px;
+}
+.category3 {
+  display: inline-block;
+  width: 300px;
+}
+.category4 {
+  width: 50px;
+}
+</style>
